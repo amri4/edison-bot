@@ -13,16 +13,29 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
-bot = commands.Bot(command_prefix=["edison ", "edison", "Edison ", "Edison"], intents=intents, help_command=None)
+
+class EdisonBot(commands.Bot):
+    async def setup_hook(self):
+        database.init_db()
+        for ext in ["cogs.help_command", "cogs.inventions"]:
+            try:
+                await self.load_extension(ext)
+                print(f"[Edison] Loaded {ext}")
+            except Exception as e:
+                print(f"[Edison] ERROR loading {ext}: {e}")
+
+
+bot = EdisonBot(
+    command_prefix=["edison ", "edison", "Edison ", "Edison"],
+    intents=intents,
+    help_command=None,
+)
 
 
 @bot.event
 async def on_ready():
-    database.init_db()
-    await bot.load_extension("cogs.help_command")
-    await bot.load_extension("cogs.inventions")
     print(f"[Edison] Online as {bot.user} (ID: {bot.user.id})")
-    print(f"[Edison] Prefix: edison | Satellite 03 — Thinker")
+    print(f"[Edison] Prefix: edison  | Satellite 03 — Thinker")
 
 
 @bot.event
