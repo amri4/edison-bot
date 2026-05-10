@@ -2,15 +2,14 @@ import discord
 from discord.ext import commands
 
 COMMANDS_DATA = {
-    "💡 Inventions": {
-        "edison idea <your idea>": "Submit an idea to Edison's lab database!",
-        "edison ideas": "Show the 5 most recent ideas submitted in this server.",
-        "edison rate <id>": "Edison rates an idea from the database (random rating).",
-        "edison eureka": "Edison has a random flash of inspiration!",
-        "edison experiment <name>": "Start a new experiment and log it.",
-        "edison experiments": "Show ongoing experiments in this server.",
-        "edison complete <id>": "Mark an experiment as complete.",
-        "edison siblings": "List all six Vegapunk satellites.",
+    "🧠 Analysis": {
+        "edison analyze": "Analyze server stats from the SHAKA database.",
+        "edison report": "Full system report: economy, trust, trivia, tips.",
+        "edison suggest": "Get a strategic suggestion based on server data.",
+        "edison optimize": "Get a server optimization tip.",
+    },
+    "🤖 Satellite Info": {
+        "edison siblings": "List all six Vegapunk satellites and their roles.",
     },
     "❓ Help": {
         "edison help": "Show this help menu.",
@@ -30,12 +29,12 @@ class CategorySelect(discord.ui.Select):
         category = self.values[0]
         cmds = COMMANDS_DATA[category]
         embed = discord.Embed(
-            title=f"Edison — {category}",
+            title=f"🧠 Edison — {category}",
             color=discord.Color.gold(),
         )
         for name, desc in cmds.items():
             embed.add_field(name=f"`{name}`", value=desc, inline=False)
-        embed.set_footer(text="Satellite 03 — Edison (Thinker) | Prefix: edison")
+        embed.set_footer(text="Satellite 03 — Edison (Thinker) | Analysis & Strategy | Prefix: edison")
         await interaction.response.edit_message(embed=embed)
 
 
@@ -52,15 +51,16 @@ class HelpCog(commands.Cog):
     @commands.command(name="help", aliases=["?"])
     async def help_command(self, ctx):
         embed = discord.Embed(
-            title="💡 Edison — Satellite 03 (Thinker)",
+            title="🧠 EDISON — Satellite 03 (Thinker)",
             description=(
-                "Oh! Oh! A new visitor! Great timing — I just had a breakthrough!\n"
-                "Select a category to see what I can do!\n\n"
+                "PUNK-03 // Edison — Thinking Unit of Dr. Vegapunk.\n"
+                "Built for ideas, strategy, and problem solving.\n"
+                "I analyze SHAKA's data to give you insights and suggestions.\n\n"
                 "**Prefix:** `edison`"
             ),
             color=discord.Color.gold(),
         )
-        embed.set_footer(text="Use the menu below to explore commands.")
+        embed.set_footer(text="Select a category below to view commands.")
         await ctx.send(embed=embed, view=HelpView())
 
 
